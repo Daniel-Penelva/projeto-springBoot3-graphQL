@@ -23,6 +23,7 @@ public class ProjetoGraphqlApplication {
 	}
 
 	// CommandLineRunner executar ações de inicialização ou tarefas específicas quando um aplicativo Spring Boot é inicializado.
+	// http://localhost:8090/h2-console
 	@Bean
 	CommandLineRunner commandLineRunner(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository){
 
