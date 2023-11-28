@@ -25,30 +25,26 @@ public class ProjetoGraphqlApplication {
 	// CommandLineRunner executar ações de inicialização ou tarefas específicas quando um aplicativo Spring Boot é inicializado.
 	// http://localhost:8090/h2-console
 	@Bean
-	CommandLineRunner commandLineRunner(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository){
-
+	CommandLineRunner commandLineRunner(CategoriaRepository categoriaRepository, ProdutoRepository productoRepository){
 		Random random = new Random();
+		return args -> {
+			List.of("Computadores","Impresoras","Smartphones").forEach(cat -> {
+				Categoria categoria = Categoria.builder().nome(cat).build();
+				categoriaRepository.save(categoria);
+			});
 
-		return args ->{
-			List.of("Computadores", "Impressoras", "Smartphone").forEach(cat -> {
-					Categoria categoria = Categoria.builder().nome(cat).build();
-
-					categoriaRepository.save(categoria);
-				});
-
-				categoriaRepository.findAll().forEach(cat -> {
-					for(int i=0; i<10; i++){
-						Produto produto = Produto.builder()
+			categoriaRepository.findAll().forEach(categoria -> {
+				for(int i = 0;i < 10; i++){
+					Produto produto = Produto.builder()
 							.id(UUID.randomUUID().toString())
-							.nome("Computador" + i)
-							.preco(100 + Math.random() * 50000)
+							.nome("Computador "+i)
+							.preco(100 + Math.random()*50000)
 							.quantidade(random.nextInt(100))
-							.categoria(cat)
+							.categoria(categoria)
 							.build();
-							
-						produtoRepository.save(produto);
-					}
-				});
-			};
-		}
+					productoRepository.save(produto);
+				}
+			});
+		};
+	}
 }

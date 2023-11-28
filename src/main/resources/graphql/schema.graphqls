@@ -1,6 +1,8 @@
 type Query{
     listarProdutos : [Produto]
     listarProdutoPorId(id : String) : Produto
+    listarCategoria : [Categoria]
+    listarCategoriaPorId(id: Float): Categoria
 }
 
 type Produto{
