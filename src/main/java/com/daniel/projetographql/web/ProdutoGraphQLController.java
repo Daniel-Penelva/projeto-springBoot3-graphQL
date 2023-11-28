@@ -79,4 +79,10 @@ public class ProdutoGraphQLController {
 
        return produtoRepository.save(produto);
     }
+
+    // Deletar Produto por id
+    @MutationMapping
+    public void deletarProduto(@Argument String id){
+       produtoRepository.deleteById(id);
+    }
 }
