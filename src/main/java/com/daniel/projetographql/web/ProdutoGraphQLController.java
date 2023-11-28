@@ -9,6 +9,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import com.daniel.projetographql.dtos.ProdutoRequest;
 import com.daniel.projetographql.entities.Categoria;
 import com.daniel.projetographql.entities.Produto;
 import com.daniel.projetographql.repositories.CategoriaRepository;
@@ -50,8 +51,16 @@ public class ProdutoGraphQLController {
     }
 
     @MutationMapping
-    public Produto criarProduto(@Argument Produto produtoRequest){
-        produtoRequest.setId(UUID.randomUUID().toString());
-        return produtoRepository.save(produtoRequest);
+    public Produto criarProduto(@Argument ProdutoRequest produtoRequest){
+       Categoria categoria = categoriaRepository.findById(produtoRequest.categoriaId()).orElse(null);
+
+       var produto = new Produto();
+       produto.setId(UUID.randomUUID().toString());
+       produto.setNome(produtoRequest.nome());
+       produto.setPreco(produtoRequest.preco());
+       produto.setQuantidade(produtoRequest.quantidade());
+       produto.setCategoria(categoria);
+
+       return produtoRepository.save(produto);
     }
 }
