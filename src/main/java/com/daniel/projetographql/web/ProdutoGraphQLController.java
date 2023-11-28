@@ -50,12 +50,28 @@ public class ProdutoGraphQLController {
             () -> new RuntimeException(String.format("Categoria %s não encontrado", id)));
     }
 
+    // Criar produto
     @MutationMapping
     public Produto criarProduto(@Argument ProdutoRequest produtoRequest){
        Categoria categoria = categoriaRepository.findById(produtoRequest.categoriaId()).orElse(null);
 
        var produto = new Produto();
        produto.setId(UUID.randomUUID().toString());
+       produto.setNome(produtoRequest.nome());
+       produto.setPreco(produtoRequest.preco());
+       produto.setQuantidade(produtoRequest.quantidade());
+       produto.setCategoria(categoria);
+
+       return produtoRepository.save(produto);
+    }
+
+    // Atualizar Produto por id
+    @MutationMapping
+    public Produto atualizarProduto(@Argument String id, @Argument ProdutoRequest produtoRequest){
+       Categoria categoria = categoriaRepository.findById(produtoRequest.categoriaId()).orElse(null);
+
+       var produto = new Produto();
+       produto.setId(id);
        produto.setNome(produtoRequest.nome());
        produto.setPreco(produtoRequest.preco());
        produto.setQuantidade(produtoRequest.quantidade());
