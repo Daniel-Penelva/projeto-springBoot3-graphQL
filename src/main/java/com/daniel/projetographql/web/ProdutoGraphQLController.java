@@ -1,9 +1,11 @@
 package com.daniel.projetographql.web;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -45,5 +47,11 @@ public class ProdutoGraphQLController {
     public Categoria listarCategoriaPorId(@Argument Long id){
         return categoriaRepository.findById(id).orElseThrow(
             () -> new RuntimeException(String.format("Categoria %s não encontrado", id)));
+    }
+
+    @MutationMapping
+    public Produto criarProduto(@Argument Produto produtoRequest){
+        produtoRequest.setId(UUID.randomUUID().toString());
+        return produtoRepository.save(produtoRequest);
     }
 }

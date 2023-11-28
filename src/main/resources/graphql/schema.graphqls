@@ -5,6 +5,10 @@ type Query{
     listarCategoriaPorId(id: Float): Categoria
 }
 
+type Mutation{
+    criarProduto(produtoRequest: ProdutoRequest) : Produto
+}
+
 type Produto{
      id : String,
     nome : String,
@@ -17,4 +21,11 @@ type Categoria{
     id : Float,
     nome : String,
     produtos: [Produto]
+}
+
+# Para a entrada de Dados
+input ProdutoRequest{
+    nome: String,
+    preco: Float,
+    quantidade: Int
 }
